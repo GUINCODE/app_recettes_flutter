@@ -42,7 +42,10 @@ class _favoriteWidgetState extends State<favoriteWidget> {
             _toggleFavorited();
           },
         ),
-        Text('$_nombreFavori'),
+        Text(
+          '$_nombreFavori',
+          style: TextStyle(color: Colors.white),
+        ),
       ],
     );
   }

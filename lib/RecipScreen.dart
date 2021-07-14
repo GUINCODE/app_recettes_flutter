@@ -9,7 +9,10 @@ class RecipScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     //TODO: mes widgets;
     Widget titleSection = Container(
-      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Colors.black54,
+      ),
+      padding: const EdgeInsets.all(5),
       child: Row(
         children: [
           Expanded(
