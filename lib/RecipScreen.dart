@@ -68,9 +68,9 @@ class RecipScreen extends StatelessWidget {
           backgroundColor: Colors.purpleAccent,
           title: Center(
             child: Text(
-              "Restaurant LYX",
+              "détails de la recette ",
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 20,
                 color: Colors.white,
               ),
             ),
@@ -104,15 +104,18 @@ class RecipScreen extends StatelessWidget {
             //   ],
             // ),
             //TODO: image avec un cache associer un FadIN
-            CachedNetworkImage(
-              imageUrl: recipe.imageUrl,
-              placeholder: (context, url) =>
-                  Center(child: CircularProgressIndicator()),
-              // placeholderFadeInDuration: PlaceholderDimensions(3) ,
-              errorWidget: (context, url, error) => Icon(Icons.error),
-              width: 600,
-              height: 260,
-              fit: BoxFit.cover,
+            Hero(
+              tag: "imageRecipe" + recipe.title,
+              child: CachedNetworkImage(
+                imageUrl: recipe.imageUrl,
+                placeholder: (context, url) =>
+                    Center(child: CircularProgressIndicator()),
+                // placeholderFadeInDuration: PlaceholderDimensions(3) ,
+                errorWidget: (context, url, error) => Icon(Icons.error),
+                width: 600,
+                height: 260,
+                fit: BoxFit.cover,
+              ),
             ),
             titleSection,
             sectionBoutons,
