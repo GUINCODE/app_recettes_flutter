@@ -71,17 +71,18 @@ class RecipeListeScreenState extends State<RecipeListeScreen> {
       body: ListView.builder(
           itemCount: recipes.length,
           itemBuilder: (context, index) {
-            // return RecipeItemWidget(recipe: recipes[index]); TODO: retourne une liste d'elemenet classic mais dissmisable
-            final element_selected = recipes[index];
+            // TODO return RecipeItemWidget(recipe: recipes[index]); TODO: retourne une liste d'elemenet
+            // classic  mais dissmisable
+            final itemSelectionne = recipes[index];
             return Dismissible(
-                key: Key(element_selected.title),
+                key: Key(itemSelectionne.title),
                 onDismissed: (direction) {
                   setState(() {
                     recipes.removeAt(index);
                   });
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content:
-                          Text("${element_selected.title} a été supprimé")));
+                          Text("${itemSelectionne.title} a été supprimé")));
                 },
                 background: Container(
                   child: Center(
@@ -90,7 +91,7 @@ class RecipeListeScreenState extends State<RecipeListeScreen> {
                         Icon(Icons.delete_forever,
                             color: Colors.white, size: 38.0),
                         Text(
-                          "Suppression de ${element_selected.title}",
+                          "Suppression de ${itemSelectionne.title}",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 15,
@@ -101,7 +102,7 @@ class RecipeListeScreenState extends State<RecipeListeScreen> {
                   ),
                   color: Colors.red[400],
                 ),
-                child: RecipeItemWidget(recipe: element_selected));
+                child: RecipeItemWidget(recipe: itemSelectionne));
           }),
     );
   }
@@ -115,17 +116,18 @@ class RecipeItemWidget extends StatelessWidget {
     // TODO: implement build
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context,
-            PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) =>
-                    RecipScreen(recipe: recipe),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  animation =
-                      CurvedAnimation(curve: Curves.ease, parent: animation);
-                  return FadeTransition(opacity: animation, child: child);
-                }));
+        Navigator.pushNamed(context, '/recipe', arguments: recipe);
+        // Navigator.push(
+        //     context,
+        //     PageRouteBuilder(
+        //         pageBuilder: (context, animation, secondaryAnimation) =>
+        //             RecipScreen(recipe: recipe),
+        //         transitionsBuilder:
+        //             (context, animation, secondaryAnimation, child) {
+        //           animation =
+        //               CurvedAnimation(curve: Curves.ease, parent: animation);
+        //           return FadeTransition(opacity: animation, child: child);
+        //         }));
       },
       child: Card(
         margin: EdgeInsets.all(2),

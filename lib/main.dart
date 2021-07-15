@@ -12,16 +12,48 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // home: RecipScreen(
-      //   recipe: Recipe(
-      //       "pizza easy",
-      //       "Par Oumar",
-      //       "https://cdn.pixabay.com/photo/2014/07/08/12/34/pizza-386717_960_720.jpg",
-      //       "description",
-      //       false,
-      //       83),
-      // ),
-      home: RecipeListeScreen(),
+      onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
+      initialRoute: '/',
+      // home: RecipeListeScreen(),
     );
+  }
+}
+
+class RouteGenerator {
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case '/':
+        return MaterialPageRoute(builder: (context) => RecipeListeScreen());
+      case '/recipe':
+        var arguments = settings.arguments;
+        if (arguments != null) {
+          return PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  RecipScreen(recipe: arguments as Recipe),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                animation =
+                    CurvedAnimation(curve: Curves.ease, parent: animation);
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              });
+        } else {
+          return pageNotFound();
+        }
+
+      default:
+        return pageNotFound();
+    }
+  }
+
+  static MaterialPageRoute pageNotFound() {
+    return MaterialPageRoute(
+        builder: (context) => Scaffold(
+            appBar: AppBar(title: Text("Error"), centerTitle: true),
+            body: Center(
+              child: Text("Page not found"),
+            )));
   }
 }
