@@ -3,8 +3,12 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'favoriteWidget.dart';
+import 'recipe.dart';
 
 class RecipScreen extends StatelessWidget {
+  final Recipe recipe;
+
+  const RecipScreen({Key? key, required this.recipe}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     //TODO: mes widgets;
@@ -22,17 +26,19 @@ class RecipScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Text(
-                  "Pizza Facile",
+                  recipe.title,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
               ),
               Text(
-                "Par Aguibou Barry",
+                recipe.user,
                 style: TextStyle(fontSize: 16, color: Colors.grey[500]),
               )
             ],
           )),
-          favoriteWidget(isFavorited: false, nombreFavori: 26),
+          favoriteWidget(
+              isFavorited: recipe.isFavorite,
+              nombreFavori: recipe.favoriteCount),
         ],
       ),
     );
@@ -50,7 +56,7 @@ class RecipScreen extends StatelessWidget {
     Widget descriptionSection = Container(
       padding: const EdgeInsets.all(20),
       child: Text(
-        "Veniam nulla pariatur sit et nisi laborum dolor nostrud esse incididunt Lorem voluptate. Aliquip aliqua veniam elit minim quis. Anim reprehenderit mollit tempor voluptate do dolor aliqua eiusmod. Sint ea excepteur eu mollit nostrud. Velit excepteur quis dolore amet excepteur ullamco occaecat anim consectetur veniam eiusmod voluptate elit tempor. Commodo culpa veniam quis ad. Commodo aliqua cillum qui non ullamco et ullamco. Veniam nulla pariatur sit et nisi laborum dolor nostrud esse incididunt Lorem voluptate. Aliquip aliqua veniam elit minim quis. Anim reprehenderit mollit tempor voluptate do dolor aliqua eiusmod. Sint ea excepteur eu mollit nostrud. Velit excepteur quis dolore amet excepteur ullamco occaecat anim consectetur veniam eiusmod voluptate elit tempor. Commodo culpa veniam quis ad. Commodo aliqua cillum qui non ullamco et ullamco Veniam nulla pariatur sit et nisi laborum dolor nostrud esse incididunt Lorem voluptate. Aliquip aliqua veniam elit minim quis. Anim reprehenderit mollit tempor voluptate do dolor aliqua eiusmod. Sint ea excepteur eu mollit nostrud. Velit excepteur quis dolore amet excepteur ullamco occaecat anim consectetur veniam eiusmod voluptate elit tempor. Commodo culpa veniam quis ad. Commodo aliqua cillum qui non ullamco et ullamco ",
+        recipe.description,
         softWrap: true,
       ),
     );
@@ -96,8 +102,7 @@ class RecipScreen extends StatelessWidget {
           // ),
           //TODO: image avec un cache associer un FadIN
           CachedNetworkImage(
-            imageUrl:
-                "https://lh3.googleusercontent.com/proxy/Njf7MczeoSmqvnc-zsR3PdyaeYt46bY3ofR7eAMK-X9JyJ06yOcmTkn4dY_EdvjKohWR5OLMdlcCqAzzg-5DMfaloCqfddC5IVavjPJvfQzw7NFWlkQ5x-_V8o3uNzn_DUQ",
+            imageUrl: recipe.imageUrl,
             placeholder: (context, url) =>
                 Center(child: CircularProgressIndicator()),
             // placeholderFadeInDuration: PlaceholderDimensions(3) ,
