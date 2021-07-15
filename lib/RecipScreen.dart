@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:transparent_image/transparent_image.dart';
+import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:second_app_flutter/favoriteChangeNotifier.dart';
 
 import 'favoriteWidget.dart';
 import 'recipe.dart';
@@ -36,9 +37,8 @@ class RecipScreen extends StatelessWidget {
               )
             ],
           )),
-          favoriteWidget(
-              isFavorited: recipe.isFavorite,
-              nombreFavori: recipe.favoriteCount),
+          FavoriteIconWidget(),
+          FavoriteTextWidget(),
         ],
       ),
     );
@@ -60,61 +60,65 @@ class RecipScreen extends StatelessWidget {
         softWrap: true,
       ),
     );
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.purpleAccent,
-        title: Center(
-          child: Text(
-            "Restaurant LYX",
-            style: TextStyle(
-              fontSize: 30,
-              color: Colors.white,
+    return ChangeNotifierProvider(
+      create: (context) =>
+          FavoriteChangeNotifier(recipe.isFavorite, recipe.favoriteCount),
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.purpleAccent,
+          title: Center(
+            child: Text(
+              "Restaurant LYX",
+              style: TextStyle(
+                fontSize: 30,
+                color: Colors.white,
+              ),
             ),
           ),
         ),
-      ),
-      body: ListView(
-        children: [
-          // TODO: image local
-          // Image.asset(
-          //   "images/pizza.jpg",
-          //   width: 600,
-          //   height: 260,
-          //   fit: BoxFit.cover,
-          // ),
-          // TODO: image depuis un url reseau et ajouter un effet de fondu a l'affichage
-          // Stack(
-          //   children: [
-          //     Container(
-          //       width: 600,
-          //       height: 260,
-          //       child: Center(child: CircularProgressIndicator()),
-          //     ),
-          //               FadeInImage.memoryNetwork(
-          //       placeholder: kTransparentImage,
-          //       image:
-          //           "https://lh3.googleusercontent.com/proxy/Njf7MczeoSmqvnc-zsR3PdyaeYt46bY3ofR7eAMK-X9JyJ06yOcmTkn4dY_EdvjKohWR5OLMdlcCqAzzg-5DMfaloCqfddC5IVavjPJvfQzw7NFWlkQ5x-_V8o3uNzn_DUQ",
-          //       width: 600,
-          //       height: 260,
-          //       fit: BoxFit.cover,
-          //     ),
-          //   ],
-          // ),
-          //TODO: image avec un cache associer un FadIN
-          CachedNetworkImage(
-            imageUrl: recipe.imageUrl,
-            placeholder: (context, url) =>
-                Center(child: CircularProgressIndicator()),
-            // placeholderFadeInDuration: PlaceholderDimensions(3) ,
-            errorWidget: (context, url, error) => Icon(Icons.error),
-            width: 600,
-            height: 260,
-            fit: BoxFit.cover,
-          ),
-          titleSection,
-          sectionBoutons,
-          descriptionSection,
-        ],
+        body: ListView(
+          children: [
+            // TODO: image local
+            // Image.asset(
+            //   "images/pizza.jpg",
+            //   width: 600,
+            //   height: 260,
+            //   fit: BoxFit.cover,
+            // ),
+            // TODO: image depuis un url reseau et ajouter un effet de fondu a l'affichage
+            // Stack(
+            //   children: [
+            //     Container(
+            //       width: 600,
+            //       height: 260,
+            //       child: Center(child: CircularProgressIndicator()),
+            //     ),
+            //               FadeInImage.memoryNetwork(
+            //       placeholder: kTransparentImage,
+            //       image:
+            //           "https://lh3.googleusercontent.com/proxy/Njf7MczeoSmqvnc-zsR3PdyaeYt46bY3ofR7eAMK-X9JyJ06yOcmTkn4dY_EdvjKohWR5OLMdlcCqAzzg-5DMfaloCqfddC5IVavjPJvfQzw7NFWlkQ5x-_V8o3uNzn_DUQ",
+            //       width: 600,
+            //       height: 260,
+            //       fit: BoxFit.cover,
+            //     ),
+            //   ],
+            // ),
+            //TODO: image avec un cache associer un FadIN
+            CachedNetworkImage(
+              imageUrl: recipe.imageUrl,
+              placeholder: (context, url) =>
+                  Center(child: CircularProgressIndicator()),
+              // placeholderFadeInDuration: PlaceholderDimensions(3) ,
+              errorWidget: (context, url, error) => Icon(Icons.error),
+              width: 600,
+              height: 260,
+              fit: BoxFit.cover,
+            ),
+            titleSection,
+            sectionBoutons,
+            descriptionSection,
+          ],
+        ),
       ),
     );
   }
